@@ -18,7 +18,7 @@ $banned_opcodes = [ :CALL, :FCALL, :OPCALL, :QCALL, :VCALL, :DXSTR, :XSTR, :ALIA
 I was already aware of many different ways to trigger method calls as I have done quite
 a bit of creative Ruby coding on [CodinGame](https://www.codingame.com/servlet/urlinvite?u=3893564)
 and [code.golf](https://code.golf/). I immediately realized you can use spread operator
-on `ARGF` to read lines from files specified in `ARGV`. It just wasn't immediately obvious
+on `ARGF` to read lines from files specified in `ARGV`. It just wasn't entirely obvious
 how to modify `ARGV` and especially find the right filename, as it included randomized
 hexadecimal digits.
 
@@ -37,10 +37,10 @@ $stdin=K
 [*$<]
 ```
 Unfortunately that approach didn't end up working out. The first problem was printing the
-result of the read, which I eventually figured out I could do by causing an error that
+result of the read, which I eventually figured out could be done by causing an error that
 includes the contents of the file in the message (simplest way to do that is unsuccessful
-pattern match with `=> []`). The part that took very long time to figure out was figuring
-out a way to find the filename (as the actual name was randomized by using `/dev/urandom`).
+pattern match with `=> []`). The part that took very long time to figure out was finding
+the filename (as the actual name was randomized by using `/dev/urandom`).
 
 Interesting side note: If we were able to call [`IO.readlines("|ls")`](https://ruby-doc.org/3.3.5/IO.html#method-c-readlines)
 that would have already given us arbitrary code execution. Unfortunately (for some reason I
