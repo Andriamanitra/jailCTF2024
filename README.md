@@ -10,7 +10,7 @@ flag which was only captured by one other team.
 ## ruby-on-jails
 
 The key to solving ruby-on-jails was to figure out all the different ways you can call
-methods without explicitly calling methods as the challenge code didn't permit any of these:
+methods without explicitly calling methods as the challenge code banned these opcodes:
 ```rb
 $banned_opcodes = [ :CALL, :FCALL, :OPCALL, :QCALL, :VCALL, :DXSTR, :XSTR, :ALIAS, :VALIAS ]
 ```
@@ -44,21 +44,24 @@ out a way to find the filename (as the actual name was randomized by using `/dev
 
 Interesting side note: If we were able to call [`IO.readlines("|ls")`](https://ruby-doc.org/3.3.5/IO.html#method-c-readlines)
 that would have already given us arbitrary code execution. Unfortunately (for some reason I
-still do not quite understand, please let me know if you know!) the behavior is different when
+still do not quite understand, please let me know if you do!) the behavior is different when
 `#readlines` is called with `super("|ls")` from a subclass, and using the pipe character does
 **not** do a system call.
 
-After a while a team mate of mine (@Natanaelel) managed to shorten the partial solution to this:
+After a while a team mate of mine ([@Natanaelel](https://github.com/Natanaelel)) managed to shorten
+the partial solution to this:
 ```rb
 ARGV[0]="flag.txt";[*$<]=>[]
 ```
 
-It all finally clicked when another team mate (@MeWhenI) posted this (non-working) version
-in the team chat where we had been discussing the problem:
+It all finally clicked the next morning when another team mate ([@MeWhenI](https://github.com/mewheni))
+posted this (non-working) version in the team chat where we had been discussing the problem:
 ```rb
 ARGV[0],=Dir["/srv/app/flag-*.txt"];[*$<]=>[]
 ```
 I had played around with `Dir[]` already the previous day inside my `K` class but seeing
 it in this context made it click. The reason we were not able to use `Dir[]` is because it
-was lacking an assignment! I could just add `||=[]` to change the parser to think of it as
-a different type (`:OP_ASGN1`).
+was lacking an assignment! I could just add `||=[]` to make the parser see it as a different
+opcode (`:OP_ASGN1`).
+
+Final solution code (with comments) in [ruby-on-jails.rb](ruby-on-jails.rb).
