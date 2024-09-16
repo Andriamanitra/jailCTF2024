@@ -19,8 +19,8 @@ I was already aware of many different ways to trigger method calls as I have don
 a bit of creative Ruby coding on [CodinGame](https://www.codingame.com/servlet/urlinvite?u=3893564)
 and [code.golf](https://code.golf/). I immediately realized you can use spread operator
 on `ARGF` to read lines from files specified in `ARGV`. It just wasn't immediately obvious
-how to modify `ARGV` and especially find the right filename, as it included randomized hexadecimal
-digits.
+how to modify `ARGV` and especially find the right filename, as it included randomized
+hexadecimal digits.
 
 The very first thing I did after reading through the challenge was to look up the Ruby parser
 source to see all possible token kinds: [rubyparser.h](https://github.com/ruby/ruby/blob/ddbd64400199fd408d23c85f9fb0d7f742ecf9e1/rubyparser.h#L993-L1103).
@@ -48,8 +48,8 @@ still do not quite understand, please let me know if you do!) the behavior is di
 `#readlines` is called with `super("|ls")` from a subclass, and using the pipe character does
 **not** do a system call.
 
-After a while a team mate of mine ([@Natanaelel](https://github.com/Natanaelel)) managed to shorten
-the partial solution to this:
+After a while a team mate of mine ([@Natanaelel](https://github.com/Natanaelel)) managed to
+shorten the partial solution to this:
 ```rb
 ARGV[0]="flag.txt";[*$<]=>[]
 ```
@@ -65,3 +65,10 @@ was lacking an assignment! I could just add `||=[]` to make the parser see it as
 opcode (`:OP_ASGN1`).
 
 Final solution code (with comments) in [ruby-on-jails.rb](ruby-on-jails.rb).
+
+
+## MMM
+
+This was a very interesting flag that involved playing with Python's format strings.
+Capturing this flag was an interesting journey deserving of a write-up, but for now
+you can check the solver code in [MMM.rb](MMM.rb).
