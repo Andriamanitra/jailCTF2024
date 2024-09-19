@@ -184,7 +184,7 @@ For others we needed to be bit more clever, but with some help from my team we m
 * You can't use `,` as a separator in binary/character formatting (`f"{1:,b}"` => ValueError)
 * You can't format integers above 0x110000 as characters (`f"{0x110001:c}"` => OverflowError)
 * To distinguish between e/f (both of which format floats) we used the fact that `f"{1.0:.2147483647f}"` is *very* slow compared to `f"{1.0:.2147483647e}"`
-* To distinguish between the numbers 0-9 we used the fact that Python refuses to format numbers larger than 2^63 - 1 (I had to dig into [CPython source code](https://github.com/python/cpython/blob/ef530ce7c61dc16387fb68d48aebfbbbfe02adbb/Objects/stringlib/unicode_format.h#L132-L136) for this one):
+* To distinguish between the numbers 0-9 we used the fact that Python rejects numbers greater than 2^63-1 in the format spec (I had to dig into [CPython source code](https://github.com/python/cpython/blob/ef530ce7c61dc16387fb68d48aebfbbbfe02adbb/Objects/stringlib/unicode_format.h#L132-L136) for this one):
   - `f"{1:9{2}23372036854775807}"` => MemoryError
   - `f"{1:9{3}23372036854775807}"` => ValueError
 
