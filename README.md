@@ -152,9 +152,9 @@ With the above in mind we could craft a template like this to make the median fu
 ```jinja
 {{ namespace(sort="{key.__globals__[os].environ[KEY]}".format) | median }}
 ```
-But how is this useful if the `median` function does not do anything with the string? It is not stored into any variable, and the function still crashes on the next line when it tries to call `len(lst)`. At first I tried to avoid the crash by crafting a namespace that included attributes like `__len__` (which didn't work). But actually we don't *need* the function to return successfully – if we can somehow affect which error message we get depending on the value of `KEY` we can keep eventually deduce its entire contents. And we can! The exception handler in the `run` function prints the class name of the exception. [Python's formatting mini-language](https://docs.python.org/3/library/string.html#formatspec) has lots of different ways to format data – many of which will cause exceptions if you try to use them wrong.
+But how is this useful if the `median` function does not do anything with the string? It is not stored into any variable, and the function still crashes on the next line when it tries to call `len(lst)`. At first I tried to avoid the crash by crafting a namespace that included attributes like `__len__` (which didn't work). But actually we don't *need* the function to return successfully – if we can somehow affect which error message we get depending on the value of `KEY` we can eventually deduce its entire contents. And we can! The exception handler in the `run` function returns us the class name of the exception. [Python's formatting mini-language](https://docs.python.org/3/library/string.html#formatspec) has lots of different ways to format data – many of which will cause exceptions if you try to use them wrong.
 
-This meant that we could start crafting templates with `sort="{VALUE_SPEC:{FORMAT_SPEC}}".format` and taking note of what exceptions they would cause:
+This meant that we could start crafting templates with `sort="{VALUE_SPEC:{FORMAT_SPEC}}".format` and taking note of which exceptions they would cause:
 ```jinja
 {{
   namespace(sort='{key.__closure__[0].cell_contents.smuggled:{key.__globals__[os].environ[KEY][0]}}'.format)
