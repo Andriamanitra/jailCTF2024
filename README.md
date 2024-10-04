@@ -1,6 +1,6 @@
 # jailCTF2024
 
-I participated in the event as a member of the winning [`chr(sum(range(ord(min(str(not()))))))`](https://ctf.pyjail.club/profile/e8adae37-6507-479b-b3bd-4e0ef3ac6477)
+I participated in the event as a member of the winning [`chr(sum(range(ord(min(str(not()))))))`](https://ctftime.org/team/354593)
 team which was formed by members of the code.golf Discord.
 
 Although I spent time on other challenges too my main contributions were capturing the
